@@ -1,16 +1,20 @@
+import "../app/styles/globals.css";
+import Navbar from "../components/Navbar";
+import ReactQueryProvider from "@/lib/react-query";
 
-import "./globals.css";
-
-
-export default function RootLayout({
+export default function Rootlayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+
   return (
     <html lang="ja">
       <body>
-        <main>{children}</main>
+        <ReactQueryProvider>
+          <Navbar/>
+          <main className="container mx-auto p4">{children}</main>
+        </ReactQueryProvider>
       </body>
     </html>
   );

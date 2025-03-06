@@ -1,11 +1,10 @@
-// import Image from "next/image";
+import PostList from "../components/PostList";
 
 export default function Home() {
   return (
-    
-    <section>
-
-    </section>
-    
+    <div>
+      <h1>ブログ記事一覧</h1>
+      <PostList />
+    </div>
   );
 }
