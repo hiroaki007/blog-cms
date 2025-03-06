@@ -1,6 +1,6 @@
 import "../app/styles/globals.css";
 import Navbar from "../components/Navbar";
-import ReactQueryProvider from "@/lib/react-query";
+import ReactQueryProvider from "@/lib/react-query-provider";
 
 export default function Rootlayout({
   children,
