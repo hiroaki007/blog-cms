@@ -2,6 +2,7 @@
 
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
+import Link from "next/link";
 
 
 export default function PostList() {
@@ -21,11 +22,16 @@ export default function PostList() {
   return (
   
     <div>
+      <h2 className="text-xl font-bold my-4">記事一覧</h2>
+
       {data?.map((post: any) => (
-        <div key={post._id} className="border-b p-4">
-          <h2>{post.title}</h2>
-          <p>{post.content}</p>
-          <p>by {post.author}</p>
+        <div key={post._id} className="border-b p-4 my-2 shadow">
+
+          <Link href={`/dashboard/${post._id}`} className="text-lg font-bold hover:underline">
+            {post.title}
+          </Link>
+
+          <p className="text-sm text-gray-500">by {post.author}</p>
         </div>
       ))}
     </div>
