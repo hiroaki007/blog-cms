@@ -4,21 +4,26 @@ import { useState } from "react";
 import { Query, useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 
+const categories = ["技術", "ライフスタイル", "レビュー"];
+
+
+
 export default function PostForm() {
   const queryClient = useQueryClient();
   const [formData, setFormData] = useState({
     title: "",
     content: "",
     author: "",
+    category: categories[0],
   });
 
-  const mutation = useMutation({
+  const createPostmutation = useMutation({
     mutationFn: async (newPost: typeof formData) => {
       return await axios.post("/api/posts", newPost);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries(["posts"]); // 記事一覧を更新
-      setFormData({ title: "", content: "", author: "" }); // フォームをリセット
+      queryClient.invalidateQueries({ queryKey:["posts"]}); // 記事一覧を更新
+      setFormData({ title: "", content: "", author: "", category:categories[0] }); // フォームをリセット
     },
   });
 
@@ -28,7 +33,7 @@ export default function PostForm() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    mutation.mutate(formData);
+    createPostmutation.mutate(formData);
   };
 
   return (
@@ -60,8 +65,16 @@ export default function PostForm() {
         required
         className="w-full p-2 border mb-2"
       />
+
+      <select name="category" value={formData.category} onChange={handleChange} className="w-full p-2 border mb-2">
+          {categories.map((cat) => (
+              <option key={cat} value={cat}>{cat}</option>
+          ))}
+      </select>
+
+
       <button type="submit" className="bg-blue-500 text-white p-2 rounded">
-        {mutation.isLoading ? "投稿中..." : "投稿する"}
+        投稿する
       </button>
     </form>
   );
