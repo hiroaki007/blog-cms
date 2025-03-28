@@ -4,6 +4,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import Link from "next/link";
 import { useState } from "react";
+import Image from "next/image";
 
 const categories = ["すべて", "技術", "ライフスタイル", "レビュー", "プログラミング"];
 
@@ -44,8 +45,17 @@ export default function PostList() {
 
       {data?.map((post: any) => (
         <div key={post._id} className="border p-4 my-2 shadow">
+
+          {post.imageUrl ? (
+                <img src={post.imageUrl.startsWith("http") ? post.imageUrl : `https://${post.imageUrl}`} alt="Post Image" className="w-full h-48 object-cover mb-2" />
+              ) : (
+                <p className="text-gray-500">画像なし</p>
+              )}
+
+
           <h3 className="text-lg font-bold">{post.title}</h3>
-          <p className="text-sm text-gray-500">by {post.author}</p>
+          <p className="text-sm text-gray-500">by {post.author} | カテゴリー: {post.category}</p>
+          <p>{post.content}</p>
           <Link href={`/dashboard/edit?id=${post._id}`} className="text-blue-500 hover:underline">
             編集する
           </Link>

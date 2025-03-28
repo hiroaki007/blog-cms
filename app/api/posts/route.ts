@@ -6,13 +6,17 @@ import Post from "@/models/Post";
 export async function POST(req: Request) {
   await connectDB();
   try {
-    const { title, content, author, category } = await req.json();
+    const { title, content, author, category, imageUrl } = await req.json();
 
-    if (!title || !content || !author || !category ) {
+    
+
+    if (!title || !content || !author || !category || !imageUrl ) {
+      console.error("❌ Missing required fields");
       return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
     }
 
-    const newPost = await Post.create({ title, content, author, category });
+    const newPost = await Post.create({ title, content, author, category, imageUrl });
+
 
     return NextResponse.json(newPost, { status: 201 });
   } catch (error) {
@@ -29,8 +33,9 @@ export async function GET(req: Request) {
     const category = searchParams.get("category");
 
     const query = category ? { category } : {};
-    const posts = await Post.find(query);
-    
+    const posts = await Post.find();
+    console.log("📌 MongoDB Fetched Posts:", posts);
+
     return NextResponse.json(posts);
   } catch (error) {
     console.error("Error fetching posts:", error);

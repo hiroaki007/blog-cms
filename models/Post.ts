@@ -6,6 +6,7 @@ const PostSchema = new mongoose.Schema(
         content: { type: String, required: true},
         author: { type: String, required: true},
         category: { type: String, required: true},
+        imageUrl: { type: String, required: false},
     },
     { timestamps: true }
 );
